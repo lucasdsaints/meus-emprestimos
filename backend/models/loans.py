@@ -11,7 +11,7 @@ class LoanModel(db.Model):
     status = db.Column(db.Integer, default=1, nullable=False)
 
 
-    def __init__(self, user_id, friend_id, item_id, loan_type, description, status='active'):
+    def __init__(self, user_id, friend_id, item_id, loan_type, description, status=1):
         self.user_id = user_id
         self.friend_id = friend_id
         self.item_id = item_id
