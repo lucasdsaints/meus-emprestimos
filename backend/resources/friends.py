@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from models.friends import FriendModel
 
@@ -10,15 +11,17 @@ class Friends(Resource):
         required=True,
         help="Friend's name is required."
     )
-    parser.add_argument(
-        'user_id',
-        type=int,
-        required=True,
-        help='User id is required.'
-    )
+    # parser.add_argument(
+    #     'user_id',
+    #     type=int,
+    #     required=True,
+    #     help='User id is required.'
+    # )
 
+    @jwt_required
     def post(self):
         data = self.parser.parse_args()
+        data['user_id'] = get_jwt_identity()
         friend = FriendModel.find_by_name_and_user_id(**data)
         if friend:
             return {'message': f'This user already has a friend called {data["name"]}.'}
@@ -29,7 +32,7 @@ class Friends(Resource):
         except:
             return {'message': 'The application could not save this friend.'}, 500
         return friend.describe(), 201
-
+    
     def get(self):
         return {'friends': [friend.describe() for friend in FriendModel.find_all()]}
 
