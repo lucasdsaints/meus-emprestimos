@@ -21,9 +21,9 @@ def create_db():
     db.create_all()
 
 api.add_resource(Users, '/users')
-api.add_resource(Friends, '/friends')
+api.add_resource(Friends, '/friends', endpoint='friends')
 api.add_resource(SingleFriend, '/friends/<int:id>')
-api.add_resource(Items, '/items')
+api.add_resource(Items, '/items', endpoint='items')
 api.add_resource(SingleItem, '/items/<int:id>')
 api.add_resource(Loans, '/loans')
 api.add_resource(SingleLoan, '/loans/<int:id>')

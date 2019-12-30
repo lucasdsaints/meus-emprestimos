@@ -42,7 +42,9 @@ class LoanModel(db.Model):
         }
 
     @classmethod
-    def find_all(cls):
+    def find_all(cls, user_id=None):
+        if user_id:
+            return cls.query.filter_by(user_id=user_id)
         return cls.query.all()
 
     @classmethod

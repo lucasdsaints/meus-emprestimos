@@ -1,5 +1,7 @@
+# pastas
 __pycache__/
 .vscode/
 
-# banco sqlite
+# arquivos
 *.db
+*.pyc

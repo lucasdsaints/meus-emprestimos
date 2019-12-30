@@ -1,4 +1,5 @@
 from app import db
+from flask import url_for
 
 class UserModel(db.Model):
     __tablename__ = 'user'
@@ -15,14 +16,20 @@ class UserModel(db.Model):
         self.password = password
         self.name = name
 
-    def describe(self):
-        return {
+    def describe(self, complete=True):
+        response = {
             'id': self.id, 
             'username': self.username, 
-            'name': self.name,
-            'items': [item.describe() for item in self.items],
-            'friends': [friend.describe() for friend in self.friends]
+            'name': self.name
         }
+        if complete:
+            response['items'] = [item.describe() for item in self.items]
+            response['friends'] = [friend.describe() for friend in self.friends]
+        else:
+            response['items'] = url_for('items', _external=True)
+            response['friends'] = url_for('friends', _external=True)
+        
+        return response
 
     def save_to_db(self):
         db.session.add(self)

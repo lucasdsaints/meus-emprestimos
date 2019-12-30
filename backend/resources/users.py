@@ -43,7 +43,7 @@ class Users(Resource):
         user_id = get_jwt_identity()
         if user_id:
             user = UserModel.find_by_id(user_id)
-            return user.describe(), 200
+            return user.describe(complete=False), 200
         return {'users': [user.describe() for user in UserModel.find_all()]}, 200
 
 

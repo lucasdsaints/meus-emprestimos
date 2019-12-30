@@ -3,7 +3,7 @@ from app import db
 class ItemModel(db.Model):
     __tablename__ = 'item'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), unique=True, nullable=False)
+    name = db.Column(db.String(30), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     loans = db.relationship('LoanModel', backref='item', lazy='dynamic')
 
@@ -28,7 +28,9 @@ class ItemModel(db.Model):
         }
 
     @classmethod
-    def find_all(cls):
+    def find_all(cls, user_id=None):
+        if user_id:
+            return cls.query.filter_by(user_id=user_id)
         return cls.query.all()
 
     @classmethod
